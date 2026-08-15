@@ -1,0 +1,129 @@
+/* Design Tokens - Auto-generated */
+/* Do not edit directly - modify tokens.json instead */
+
+/* === PRIMITIVES === */
+:root {
+  --primitive-color-amber-300: #FBBF24;
+  --primitive-color-amber-400: #F59E0B;
+  --primitive-color-amber-500: #D97706;
+  --primitive-color-amber-600: #B45309;
+  --primitive-color-stone-50: #F4F0E6;
+  --primitive-color-stone-100: #ECE6D8;
+  --primitive-color-stone-200: #E9E3D7;
+  --primitive-color-stone-300: #D7D0C0;
+  --primitive-color-stone-400: #98917F;
+  --primitive-color-stone-500: #6B6457;
+  --primitive-color-stone-900: #201D18;
+  --primitive-color-coal-600: #453E34;
+  --primitive-color-coal-700: #332E28;
+  --primitive-color-coal-800: #2A2621;
+  --primitive-color-coal-900: #221E1A;
+  --primitive-color-coal-950: #1A1714;
+  --primitive-color-ivory-50: #F2EFE9;
+  --primitive-color-ivory-300: #A69E91;
+  --primitive-color-ivory-500: #6F685C;
+  --primitive-color-red-200: #F0A1A0;
+  --primitive-color-red-600: #D0342C;
+  --primitive-color-cream: #FAF6ED;
+  --primitive-color-ink: #1D150A;
+  --primitive-color-white: #FFFFFF;
+  --primitive-spacing-1: 0.25rem;
+  --primitive-spacing-2: 0.5rem;
+  --primitive-spacing-3: 0.75rem;
+  --primitive-spacing-4: 1rem;
+  --primitive-spacing-5: 1.25rem;
+  --primitive-spacing-6: 1.5rem;
+  --primitive-spacing-8: 2rem;
+  --primitive-spacing-12: 3rem;
+  --primitive-fontSize-xs: 0.75rem;
+  --primitive-fontSize-sm: 0.875rem;
+  --primitive-fontSize-base: 1rem;
+  --primitive-fontSize-lg: 1.125rem;
+  --primitive-fontSize-xl: 1.25rem;
+  --primitive-fontSize-2xl: 1.5rem;
+  --primitive-fontSize-3xl: 1.9rem;
+  --primitive-fontFamily-ui: 'Inter', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --primitive-fontFamily-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --primitive-radius-sm: 8px;
+  --primitive-radius-default: 12px;
+  --primitive-radius-full: 999px;
+  --primitive-duration-fast: 150ms;
+}
+
+/* === SEMANTIC === */
+:root {
+  --color-background: #FAF6ED;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F4F0E6;
+  --color-surface-active: #ECE6D8;
+  --color-foreground: #201D18;
+  --color-muted: #6B6457;
+  --color-placeholder: #98917F;
+  --color-border: #E9E3D7;
+  --color-border-strong: #D7D0C0;
+  --color-primary: #D97706;
+  --color-primary-hover: #B45309;
+  --color-primary-soft: rgba(217, 119, 6, 0.1);
+  --color-on-primary: #1D150A;
+  --color-brand: #D97706;
+  --color-brand-ink: #1D150A;
+  --color-danger: #D0342C;
+  --color-danger-soft: rgba(208, 52, 44, 0.08);
+  --color-danger-border: rgba(208, 52, 44, 0.32);
+  --color-scrim: rgba(0, 0, 0, 0.45);
+  --color-scrim-strong: rgba(0, 0, 0, 0.82);
+  --color-thumb-remove-bg: rgba(0, 0, 0, 0.55);
+  --color-overlay-fg: #FFFFFF;
+  --color-overlay-border: rgba(255, 255, 255, 0.25);
+  --color-overlay-btn: rgba(255, 255, 255, 0.1);
+  --color-overlay-btn-hover: rgba(255, 255, 255, 0.22);
+  --color-overlay-count: rgba(255, 255, 255, 0.14);
+  --color-overlay-count-border: rgba(255, 255, 255, 0.2);
+  --font-ui: 'Inter', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --radius-sm: 8px;
+  --radius-default: 12px;
+  --radius-full: 999px;
+  --duration-fast: 150ms;
+  --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* === COMPONENTS === */
+:root {
+  --button-bg: #D97706;
+  --button-fg: #1D150A;
+  --button-hover-bg: #B45309;
+  --button-border: #E9E3D7;
+  --button-radius: 8px;
+  --button-padding-y: 0.5rem;
+  --button-padding-x: 1rem;
+  --card-bg: #FFFFFF;
+  --card-border: #E9E3D7;
+  --card-radius: 12px;
+  --input-bg: #FFFFFF;
+  --input-border: #E9E3D7;
+  --input-focus-ring: #D97706;
+  --input-radius: 8px;
+  --input-padding-y: 0.5rem;
+  --input-padding-x: 0.75rem;
+  --sidebar-item-radius: 8px;
+}
+
+/* === DARK MODE === */
+[data-theme='dark'] {
+  --color-background: #1A1714;
+  --color-surface: #221E1A;
+  --color-surface-hover: #2A2621;
+  --color-surface-active: #332E28;
+  --color-foreground: #F2EFE9;
+  --color-muted: #A69E91;
+  --color-placeholder: #6F685C;
+  --color-border: #332E28;
+  --color-border-strong: #453E34;
+  --color-primary: #F59E0B;
+  --color-primary-hover: #FBBF24;
+  --color-primary-soft: rgba(245, 158, 11, 0.14);
+  --color-danger: #F0A1A0;
+  --color-danger-soft: rgba(240, 161, 160, 0.12);
+  --color-danger-border: rgba(240, 161, 160, 0.35);
+}

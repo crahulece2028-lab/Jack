@@ -6,65 +6,14 @@
    action and the active sidebar item.
    ============================================================= */
 
-/* ---------- Tokens ---------- */
+/* ---------- Theme color-scheme ---------- */
 
 :root {
   color-scheme: light;
-
-  --bg: #faf6ed;
-  --surface: #ffffff;
-  --surface-hover: #f4f0e6;
-  --surface-active: #ece6d8;
-
-  --text: #201d18;
-  --muted: #6b6457;
-  --placeholder: #98917f;
-
-  --border: #e9e3d7;
-  --border-strong: #d7d0c0;
-
-  --primary: #d97706;
-  --primary-hover: #b45309;
-  --primary-soft: rgba(217, 119, 6, 0.1);
-  --primary-ink: #1d150a;
-
-  --brand: #d97706;
-  --brand-ink: #1d150a;
-
-  --danger: #d0342c;
-  --danger-soft: rgba(208, 52, 44, 0.08);
-  --danger-border: rgba(208, 52, 44, 0.32);
-
-  --radius: 12px;
-  --radius-sm: 8px;
-
-  --font-ui: 'Inter', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
-
-  --bg: #1a1714;
-  --surface: #221e1a;
-  --surface-hover: #2a2621;
-  --surface-active: #332e28;
-
-  --text: #f2efe9;
-  --muted: #a69e91;
-  --placeholder: #6f685c;
-
-  --border: #332e28;
-  --border-strong: #453e34;
-
-  --primary: #f59e0b;
-  --primary-hover: #fbbf24;
-  --primary-soft: rgba(245, 158, 11, 0.14);
-  --primary-ink: #1d150a;
-
-  --danger: #f0a1a0;
-  --danger-soft: rgba(240, 161, 160, 0.12);
-  --danger-border: rgba(240, 161, 160, 0.35);
 }
 
 /* ---------- Reset & base ---------- */
@@ -83,8 +32,8 @@ html {
 
 body {
   font-family: var(--font-ui);
-  color: var(--text);
-  background-color: var(--bg);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
   line-height: 1.55;
   min-height: 100vh;
   font-size: 16px;
@@ -99,7 +48,7 @@ h3 {
 }
 
 a {
-  color: var(--primary);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -116,11 +65,11 @@ textarea {
 }
 
 ::selection {
-  background: var(--primary-soft);
+  background: var(--color-primary-soft);
 }
 
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -141,13 +90,13 @@ textarea {
 }
 
 .muted {
-  color: var(--muted);
+  color: var(--color-muted);
 }
 
 .error {
-  color: var(--danger);
-  background: var(--danger-soft);
-  border: 1px solid var(--danger-border);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger-border);
   border-radius: var(--radius-sm);
   padding: 0.6rem 0.9rem;
   margin: 0.75rem 0;
@@ -157,7 +106,7 @@ textarea {
   display: grid;
   place-items: center;
   min-height: 60vh;
-  color: var(--muted);
+  color: var(--color-muted);
 }
 
 /* ---------- Navbar ---------- */
@@ -166,8 +115,8 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .navbar-inner {
@@ -184,7 +133,7 @@ textarea {
   gap: 0.6rem;
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--text);
+  color: var(--color-foreground);
 }
 
 .brand:hover {
@@ -197,8 +146,8 @@ textarea {
   width: 1.9rem;
   height: 1.9rem;
   border-radius: 8px;
-  background: var(--brand);
-  color: var(--brand-ink);
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
   font-family: var(--font-serif);
   font-size: 0.95rem;
   font-weight: 700;
@@ -215,18 +164,18 @@ textarea {
   height: 2.1rem;
   display: grid;
   place-items: center;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: 50%;
   background: transparent;
-  color: var(--muted);
+  color: var(--color-muted);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .theme-toggle:hover {
-  background: var(--surface-hover);
-  color: var(--text);
-  border-color: var(--border-strong);
+  background: var(--color-surface-hover);
+  color: var(--color-foreground);
+  border-color: var(--color-border-strong);
 }
 
 /* ---------- Buttons ---------- */
@@ -238,9 +187,9 @@ textarea {
   gap: 0.4rem;
   padding: 0.55rem 1.05rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-foreground);
   font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
@@ -250,13 +199,13 @@ textarea {
 }
 
 .btn:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
   text-decoration: none;
 }
 
 .btn:active {
-  background: var(--surface-active);
+  background: var(--color-surface-active);
 }
 
 .btn:disabled {
@@ -265,14 +214,14 @@ textarea {
 }
 
 .btn-primary {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--primary-ink);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 .btn-ghost {
@@ -280,18 +229,18 @@ textarea {
 }
 
 .btn-ghost:hover {
-  background: var(--surface-hover);
+  background: var(--color-surface-hover);
 }
 
 .btn-danger {
   background: transparent;
-  border-color: var(--danger-border);
-  color: var(--danger);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
 }
 
 .btn-danger:hover {
-  background: var(--danger-soft);
-  border-color: var(--danger-border);
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
 }
 
 .btn-sm {
@@ -306,9 +255,9 @@ textarea {
 /* ---------- Cards & forms ---------- */
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
 }
 
 .form {
@@ -324,7 +273,7 @@ textarea {
   display: block;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--color-muted);
   margin-bottom: 0.45rem;
 }
 
@@ -337,10 +286,10 @@ textarea {
 .sidebar-add-form input {
   width: 100%;
   padding: 0.6rem 0.85rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text);
+  background: var(--color-surface);
+  color: var(--color-foreground);
   font-size: 0.97rem;
   font-family: inherit;
   transition: border-color 0.15s, background 0.15s;
@@ -354,15 +303,15 @@ textarea {
 .manage-add-input:focus,
 .sidebar-add-form input:focus {
   outline: none;
-  border-color: var(--primary);
-  background: var(--surface);
+  border-color: var(--color-primary);
+  background: var(--color-surface);
 }
 
 .field input::placeholder,
 .field textarea::placeholder,
 .search-input::placeholder,
 .sidebar-add-form input::placeholder {
-  color: var(--placeholder);
+  color: var(--color-placeholder);
 }
 
 .field textarea {
@@ -384,7 +333,7 @@ textarea {
 
 .hint {
   font-size: 0.85rem;
-  color: var(--muted);
+  color: var(--color-muted);
 }
 
 /* ---------- Auth ---------- */
@@ -457,7 +406,7 @@ textarea {
 .dash-title-edit {
   border: none;
   background: transparent;
-  color: var(--muted);
+  color: var(--color-muted);
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -470,8 +419,8 @@ textarea {
 }
 
 .dash-title-edit:hover {
-  color: var(--text);
-  background: var(--surface-hover);
+  color: var(--color-foreground);
+  background: var(--color-surface-hover);
 }
 
 .dash-title-input {
@@ -479,10 +428,10 @@ textarea {
   font-size: 1.5rem;
   font-weight: 600;
   padding: 0.2rem 0.5rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text);
+  background: var(--color-surface);
+  color: var(--color-foreground);
   width: min(100%, 360px);
 }
 
@@ -502,7 +451,7 @@ textarea {
   left: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--muted);
+  color: var(--color-muted);
   pointer-events: none;
   display: grid;
   place-items: center;
@@ -523,9 +472,9 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
   padding: 0.6rem;
 }
 
@@ -544,7 +493,7 @@ textarea {
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--text);
+  color: var(--color-foreground);
   font-size: 0.94rem;
   font-weight: 500;
   cursor: pointer;
@@ -553,12 +502,12 @@ textarea {
 }
 
 .sidebar-item:hover {
-  background: var(--surface-hover);
+  background: var(--color-surface-hover);
 }
 
 .sidebar-item.active {
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -567,18 +516,18 @@ textarea {
   height: 0.5rem;
   border-radius: 50%;
   flex-shrink: 0;
-  background: var(--border-strong);
+  background: var(--color-border-strong);
 }
 
 .sidebar-dot.empty {
   background: transparent;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--color-border-strong);
 }
 
 .sidebar-item.active .sidebar-dot,
 .sidebar-item.active .sidebar-dot.empty {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .sidebar-name {
@@ -590,13 +539,13 @@ textarea {
 
 .sidebar-count {
   font-size: 0.8rem;
-  color: var(--muted);
+  color: var(--color-muted);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
 
 .sidebar-item.active .sidebar-count {
-  color: var(--primary);
+  color: var(--color-primary);
 }
 
 .sidebar-add {
@@ -606,10 +555,10 @@ textarea {
   width: 100%;
   padding: 0.5rem 0.65rem;
   margin-top: 0.35rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
@@ -617,9 +566,9 @@ textarea {
 }
 
 .sidebar-add:hover {
-  color: var(--text);
-  border-color: var(--border-strong);
-  background: var(--surface-hover);
+  color: var(--color-foreground);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
 }
 
 .sidebar-add-form {
@@ -638,9 +587,9 @@ textarea {
   margin-top: 0.35rem;
   padding: 0.45rem 0.65rem 0.15rem;
   border: none;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--color-border);
   background: transparent;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.82rem;
   cursor: pointer;
   text-align: left;
@@ -648,7 +597,7 @@ textarea {
 }
 
 .sidebar-manage:hover {
-  color: var(--text);
+  color: var(--color-foreground);
 }
 
 /* ---------- Notes grid ---------- */
@@ -665,23 +614,23 @@ textarea {
   text-align: left;
   overflow: hidden;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
+  background: var(--color-surface);
+  color: var(--color-foreground);
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
 
 .note-card:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-hover);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
 }
 
 .note-thumb {
   aspect-ratio: 4 / 3;
-  background: var(--surface-hover);
+  background: var(--color-surface-hover);
 }
 
 .note-thumb img {
@@ -695,7 +644,7 @@ textarea {
   height: 100%;
   display: grid;
   place-items: center;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -726,7 +675,7 @@ textarea {
 
 .note-date {
   font-size: 0.82rem;
-  color: var(--muted);
+  color: var(--color-muted);
 }
 
 /* ---------- Empty state ---------- */
@@ -738,8 +687,8 @@ textarea {
   gap: 0.85rem;
   text-align: center;
   padding: 4.5rem 1.5rem;
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-default);
 }
 
 .empty h3 {
@@ -784,9 +733,9 @@ textarea {
   white-space: pre-wrap;
   margin: 1.25rem 0;
   padding: 1.2rem 1.4rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
   line-height: 1.7;
 }
 
@@ -801,7 +750,7 @@ textarea {
   padding: 0;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  background: var(--surface-hover);
+  background: var(--color-surface-hover);
   cursor: zoom-in;
   display: block;
 }
@@ -816,9 +765,9 @@ textarea {
 .images-card {
   margin-top: 2rem;
   padding: 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
 }
 
 .images-card-header {
@@ -841,13 +790,13 @@ textarea {
 
 .images-count {
   flex-shrink: 0;
-  background: var(--surface-hover);
-  color: var(--muted);
+  background: var(--color-surface-hover);
+  color: var(--color-muted);
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
 }
 
 .dropzone {
@@ -857,7 +806,7 @@ textarea {
   gap: 0.45rem;
   text-align: center;
   padding: 2.75rem 1.5rem;
-  border: 1px dashed var(--border-strong);
+  border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: transparent;
   cursor: pointer;
@@ -866,8 +815,8 @@ textarea {
 
 .dropzone:hover,
 .dropzone.drag-over {
-  border-color: var(--primary);
-  background: var(--primary-soft);
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
 }
 
 .dropzone-icon {
@@ -876,9 +825,9 @@ textarea {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--surface-hover);
-  color: var(--muted);
-  border: 1px solid var(--border);
+  background: var(--color-surface-hover);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 1;
@@ -891,7 +840,7 @@ textarea {
 }
 
 .dropzone-sub {
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.85rem;
 }
 
@@ -924,8 +873,8 @@ textarea {
   width: 124px;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--surface-hover);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-hover);
 }
 
 .thumb-item img {
@@ -938,7 +887,7 @@ textarea {
 .thumb-name {
   display: block;
   font-size: 0.68rem;
-  color: var(--muted);
+  color: var(--color-muted);
   padding: 0.3rem 0.45rem;
   white-space: nowrap;
   overflow: hidden;
@@ -953,8 +902,8 @@ textarea {
   height: 22px;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
+  background: var(--color-thumb-remove-bg);
+  color: var(--color-overlay-fg);
   font-size: 0.9rem;
   line-height: 1;
   cursor: pointer;
@@ -963,7 +912,7 @@ textarea {
 }
 
 .thumb-remove:hover {
-  background: var(--danger);
+  background: var(--color-danger);
 }
 
 /* ---------- File icons & lists ---------- */
@@ -973,18 +922,18 @@ textarea {
   height: 100px;
   display: grid;
   place-items: center;
-  background: var(--surface-hover);
+  background: var(--color-surface-hover);
 }
 
 .file-icon span {
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--muted);
-  border: 1px solid var(--border);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 0.3rem 0.5rem;
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 .note-thumb-empty .file-icon {
@@ -1003,17 +952,17 @@ textarea {
   align-items: center;
   gap: 0.9rem;
   padding: 0.7rem 1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  color: var(--text);
+  color: var(--color-foreground);
   text-decoration: none;
   transition: border-color 0.15s, background 0.15s;
 }
 
 .file-item:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-hover);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
   text-decoration: none;
 }
 
@@ -1037,7 +986,7 @@ textarea {
 }
 
 .file-item-open {
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.85rem;
   flex-shrink: 0;
 }
@@ -1055,7 +1004,7 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 120;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--color-scrim);
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -1065,11 +1014,11 @@ textarea {
   width: min(520px, 100%);
   max-height: min(80vh, 640px);
   overflow-y: auto;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-default);
   padding: 1.35rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-modal);
 }
 
 .modal-head {
@@ -1082,14 +1031,14 @@ textarea {
 .modal-close {
   border: none;
   background: transparent;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
 }
 
 .modal-close:hover {
-  color: var(--text);
+  color: var(--color-foreground);
 }
 
 .manage-add {
@@ -1109,9 +1058,9 @@ textarea {
   align-items: center;
   gap: 0.75rem;
   padding: 0.6rem 0.8rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 .manage-rename {
@@ -1121,30 +1070,30 @@ textarea {
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--text);
+  color: var(--color-foreground);
   font: inherit;
   font-weight: 600;
 }
 
 .manage-rename:hover {
-  border-color: var(--border);
+  border-color: var(--color-border);
 }
 
 .manage-rename:focus {
-  border-color: var(--primary);
+  border-color: var(--color-primary);
   outline: none;
 }
 
 .manage-count {
   font-size: 0.82rem;
-  color: var(--muted);
+  color: var(--color-muted);
   white-space: nowrap;
 }
 
 .manage-delete {
   border: 1px solid transparent;
   background: transparent;
-  color: var(--danger);
+  color: var(--color-danger);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -1154,8 +1103,8 @@ textarea {
 }
 
 .manage-delete:hover {
-  background: var(--danger-soft);
-  border-color: var(--danger-border);
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
 }
 
 /* ---------- Lightbox ---------- */
@@ -1164,7 +1113,7 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.82);
+  background: var(--color-scrim-strong);
   display: grid;
   place-items: center;
   padding: 2rem;
@@ -1180,12 +1129,12 @@ textarea {
 .lb-btn,
 .lb-close {
   position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--color-overlay-border);
   border-radius: 50%;
   width: 44px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--color-overlay-btn);
+  color: var(--color-overlay-fg);
   font-size: 1.5rem;
   cursor: pointer;
   display: grid;
@@ -1196,7 +1145,7 @@ textarea {
 
 .lb-btn:hover,
 .lb-close:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: var(--color-overlay-btn-hover);
 }
 
 .lb-prev {
@@ -1221,12 +1170,12 @@ textarea {
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  color: #fff;
+  color: var(--color-overlay-fg);
   font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--color-overlay-count);
   padding: 0.3rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-overlay-count-border);
 }
 
 /* ---------- Small screens ---------- */

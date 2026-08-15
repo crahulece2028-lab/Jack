@@ -391,42 +391,56 @@ textarea {
   }
 }
 
-/* ---------- Subject tabs ---------- */
+/* ---------- Dashboard layout ---------- */
 
-.subject-tabs {
+.dash-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 1.75rem;
+  align-items: start;
   margin-top: 1.5rem;
 }
 
-.tabs-row {
+.dash-sidebar {
+  position: sticky;
+  top: 1.25rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.6rem;
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  padding: 0.9rem;
 }
 
-.tabs-scroll {
+/* ---------- Subject tabs ---------- */
+
+.subject-tabs .error {
+  margin-bottom: 0.25rem;
+}
+
+.tabs-list {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  overflow-x: auto;
-  flex: 1;
-  padding-bottom: 0.25rem;
-  scrollbar-width: thin;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .tab {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 0.85rem;
-  border: 1px solid var(--stroke);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  text-align: left;
   transition:
     background 0.15s ease,
     color 0.15s ease,
@@ -435,20 +449,26 @@ textarea {
 
 .tab:hover {
   color: var(--text);
-  border-color: var(--stroke-strong);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .tab.active {
+  color: var(--text);
   background: var(--primary-soft);
   border-color: rgba(129, 140, 248, 0.55);
-  color: var(--text);
 }
 
 .tab-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+.tab-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tab-count {
@@ -458,6 +478,7 @@ textarea {
   border-radius: 999px;
   padding: 0.05rem 0.42rem;
   color: var(--muted);
+  flex-shrink: 0;
 }
 
 .tab.active .tab-count {
@@ -465,48 +486,63 @@ textarea {
 }
 
 .tab-add {
-  background: transparent;
-  border-style: dashed;
+  border: 1px dashed var(--stroke-strong);
   color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .tab-add:hover {
   color: var(--text);
-  border-color: var(--stroke-strong);
+  border-color: var(--primary);
+  background: var(--primary-soft);
 }
 
-.tab-input {
-  width: 150px;
-  padding: 0.5rem 0.75rem;
+.tab-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+}
+
+.tab-add-form input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
   border: 1px solid var(--primary);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
+}
+
+.tab-add-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .tab-manage {
-  flex-shrink: 0;
-  padding: 0.5rem 0.9rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
   border: 1px solid var(--stroke);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
   font: inherit;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
   transition:
     color 0.15s ease,
+    background 0.15s ease,
     border-color 0.15s ease;
 }
 
 .tab-manage:hover {
   color: var(--text);
   border-color: var(--stroke-strong);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 /* ---------- Manage subjects modal ---------- */
@@ -1158,6 +1194,40 @@ textarea {
 }
 
 /* ---------- Small screens ---------- */
+
+@media (max-width: 960px) {
+  .dash-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dash-sidebar {
+    position: static;
+    padding: 0.6rem;
+  }
+
+  .tabs-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.4rem;
+    padding-bottom: 0.15rem;
+  }
+
+  .tab {
+    width: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .tab-name {
+    flex: none;
+  }
+
+  .tab-manage {
+    width: auto;
+    align-self: flex-start;
+  }
+}
 
 @media (max-width: 640px) {
   .navbar-inner {

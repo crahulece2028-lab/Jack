@@ -83,38 +83,39 @@ export default function SubjectTabs({ active, onSelect }) {
   return (
     <div className="subject-tabs">
       {error && <p className="error">{error}</p>}
-      <div className="tabs-row">
-        <div className="tabs-scroll">
+      <div className="tabs-list">
+        <button
+          type="button"
+          className={`tab${active === '' ? ' active' : ''}`}
+          onClick={() => onSelect('')}
+        >
+          <span className="tab-dot" style={{ background: 'var(--primary-strong)' }} />
+          <span className="tab-name">All</span>
+        </button>
+        {(subjects || []).map((s) => (
           <button
+            key={s.id}
             type="button"
-            className={`tab${active === '' ? ' active' : ''}`}
-            onClick={() => onSelect('')}
+            className={`tab${active === s.name ? ' active' : ''}`}
+            onClick={() => onSelect(s.name)}
           >
-            <span className="tab-dot" style={{ background: 'var(--primary-strong)' }} />
-            All
+            <span className="tab-dot" style={{ background: s.color }} />
+            <span className="tab-name">{s.name}</span>
+            <span className="tab-count">{s.noteCount}</span>
           </button>
-          {(subjects || []).map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              className={`tab${active === s.name ? ' active' : ''}`}
-              onClick={() => onSelect(s.name)}
-            >
-              <span className="tab-dot" style={{ background: s.color }} />
-              {s.name}
-              <span className="tab-count">{s.noteCount}</span>
-            </button>
-          ))}
-          {adding ? (
+        ))}
+        {adding ? (
+          <div className="tab-add-form">
             <input
               autoFocus
-              className="tab-input"
               placeholder="Subject name…"
               value={addName}
               onChange={(e) => setAddName(e.target.value)}
-              onBlur={() => {
-                setAdding(false);
-                setAddName('');
+              onBlur={(e) => {
+                if (!e.currentTarget.parentElement?.contains(e.relatedTarget)) {
+                  setAdding(false);
+                  setAddName('');
+                }
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -127,22 +128,37 @@ export default function SubjectTabs({ active, onSelect }) {
                 }
               }}
             />
-          ) : (
-            <button
-              type="button"
-              className="tab tab-add"
-              onClick={() => setAdding(true)}
-              title="Add subject"
-              aria-label="Add subject"
-            >
-              +
-            </button>
-          )}
-        </div>
-        <button type="button" className="tab-manage" onClick={() => setManaging(true)}>
-          ⚙ Manage
-        </button>
+            <div className="tab-add-actions">
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => create(addName)}>
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  setAdding(false);
+                  setAddName('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="tab tab-add"
+            onClick={() => setAdding(true)}
+            title="Add subject"
+            aria-label="Add subject"
+          >
+            + Add subject
+          </button>
+        )}
       </div>
+      <button type="button" className="tab-manage" onClick={() => setManaging(true)}>
+        ⚙ Manage subjects
+      </button>
 
       {managing && (
         <div className="modal-backdrop" onClick={() => setManaging(false)}>

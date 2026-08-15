@@ -57,7 +57,6 @@ export default function Dashboard() {
   }, [search, active, sort]);
 
   const heading = active ? active : title;
-  const showNewNote = notes !== null && notes.length > 0;
 
   let subtitle;
   if (active) {
@@ -114,11 +113,9 @@ export default function Dashboard() {
             )}
             <p className="muted subtitle">{subtitle}</p>
           </div>
-          {showNewNote && (
-            <Link to="/notes/new" className="btn btn-primary">
-              + New note
-            </Link>
-          )}
+          <Link to="/notes/new" className="btn btn-primary">
+            + New note
+          </Link>
         </div>
 
         <div className="dash-toolbar">

@@ -132,7 +132,7 @@ export default function Dashboard() {
             <p className="muted subtitle">{subtitle}</p>
           </div>
           {active && (
-            <Link to="/notes/new" className="btn btn-primary">
+            <Link to={`/notes/new?subject=${encodeURIComponent(active)}`} className="btn btn-primary">
               + New note
             </Link>
           )}
@@ -163,7 +163,7 @@ export default function Dashboard() {
             }
             action={
               active ? (
-                <Link to="/notes/new" className="btn btn-primary">
+                <Link to={`/notes/new?subject=${encodeURIComponent(active)}`} className="btn btn-primary">
                   + New note
                 </Link>
               ) : null

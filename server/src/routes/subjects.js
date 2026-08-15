@@ -40,7 +40,7 @@ function subjectJson(row, noteCount) {
 router.get('/', async (req, res, next) => {
   try {
     const rows = await db.all(
-      `SELECT s.*, (SELECT COUNT(*) FROM notes n WHERE n.subject = s.name) AS noteCount
+      `SELECT s.*, (SELECT COUNT(*) FROM notes n WHERE LOWER(n.subject) = LOWER(s.name)) AS noteCount
        FROM subjects s ORDER BY s.position, s.id`
     );
     res.json({ subjects: rows.map((r) => subjectJson(r, r.noteCount)) });
@@ -92,11 +92,11 @@ router.put('/:id(\\d+)', async (req, res, next) => {
     await db.run('UPDATE subjects SET name = ?, color = ? WHERE id = ?', name, color, id);
     if (name !== current.name) {
       // Keep notes in sync when a tab is renamed.
-      await db.run('UPDATE notes SET subject = ? WHERE subject = ?', name, current.name);
+      await db.run('UPDATE notes SET subject = ? WHERE LOWER(subject) = LOWER(?)', name, current.name);
     }
 
     const subject = await db.get('SELECT * FROM subjects WHERE id = ?', id);
-    const count = (await db.get('SELECT COUNT(*) AS c FROM notes WHERE subject = ?', name)).c;
+    const count = (await db.get('SELECT COUNT(*) AS c FROM notes WHERE LOWER(subject) = LOWER(?)', name)).c;
     res.json({ subject: subjectJson(subject, count) });
   } catch (e) {
     next(e);
@@ -111,7 +111,7 @@ router.delete('/:id(\\d+)', async (req, res, next) => {
     if (!current) return res.status(404).json({ error: 'Subject not found' });
 
     // Notes in the deleted subject move back to "All".
-    await db.run('UPDATE notes SET subject = ? WHERE subject = ?', '', current.name);
+    await db.run('UPDATE notes SET subject = ? WHERE LOWER(subject) = LOWER(?)', '', current.name);
     await db.run('DELETE FROM subjects WHERE id = ?', id);
     res.json({ ok: true });
   } catch (e) {

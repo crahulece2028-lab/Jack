@@ -99,10 +99,11 @@ const ALLOWED_UPLOAD_TYPES = ['image/*', 'text/*', 'audio/*', 'video/*', 'applic
 
 // Make sure a dashboard tab exists for the note's subject, creating it if
 // needed (with the next palette colour). Notes keep subject as free text.
+// Returns the canonical tab name so the note always matches its tab exactly.
 async function ensureSubject(name) {
-  if (!name) return;
-  const exists = await db.get('SELECT id FROM subjects WHERE LOWER(name) = LOWER(?)', name);
-  if (exists) return;
+  if (!name) return name;
+  const exists = await db.get('SELECT name FROM subjects WHERE LOWER(name) = LOWER(?)', name);
+  if (exists) return exists.name;
   const { rows } = await db.run(
     `INSERT INTO subjects (name, color, position)
      VALUES (?, ?, (SELECT COALESCE(MAX(position), 0) + 1 FROM subjects))
@@ -116,6 +117,7 @@ async function ensureSubject(name) {
     SUBJECT_PALETTE[pos % SUBJECT_PALETTE.length],
     rows[0].id
   );
+  return name;
 }
 
 function cleanName(raw) {
@@ -165,7 +167,7 @@ router.get('/', async (req, res, next) => {
       params.push(like, like, like, like);
     }
     if (subject) {
-      where.push('n.subject = ?');
+      where.push('LOWER(n.subject) = LOWER(?)');
       params.push(subject);
     }
     if (tag) {
@@ -204,16 +206,16 @@ router.post('/', async (req, res, next) => {
   try {
     const { title: rawTitle, subject, description, tags } = validateNoteBody(req.body);
     const title = resolveTitle(rawTitle, description, subject);
+    const canonicalSubject = await ensureSubject(subject);
 
     const result = await db.run(
       `INSERT INTO notes (title, subject, description, tags)
        VALUES (?, ?, ?, ?) RETURNING id`,
       title,
-      subject,
+      canonicalSubject,
       description,
       toCsv(tags)
     );
-    await ensureSubject(subject);
     const note = await getNote(result.rows[0].id);
     res.status(201).json({ note: noteToJson(note) });
   } catch (e) {
@@ -229,18 +231,18 @@ router.put('/:id(\\d+)', async (req, res, next) => {
 
     const { title: rawTitle, subject, description, tags } = validateNoteBody(req.body);
     const title = resolveTitle(rawTitle, description, subject);
+    const canonicalSubject = await ensureSubject(subject);
 
     await db.run(
       `UPDATE notes SET title = ?, subject = ?, description = ?, tags = ?, updated_at = ?
        WHERE id = ?`,
       title,
-      subject,
+      canonicalSubject,
       description,
       toCsv(tags),
       new Date().toISOString(),
       id
     );
-    await ensureSubject(subject);
 
     const note = await getNote(id);
     res.json({ note: noteToJson(note, note.images) });

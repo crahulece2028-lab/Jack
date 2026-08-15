@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, uploadImages } from '../api.js';
 import ImagesSection from '../components/ImagesSection.jsx';
 import NoteForm from '../components/NoteForm.jsx';
 
 export default function NewNote() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialSubject = searchParams.get('subject') || '';
   const formRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -39,7 +41,13 @@ export default function NewNote() {
 
       <h2>New note</h2>
       {error && <p className="error">{error}</p>}
-      <NoteForm onSubmit={handleSubmit} onCancel={() => navigate('/')} busy={busy} formRef={formRef} />
+      <NoteForm
+        initial={initialSubject ? { subject: initialSubject } : undefined}
+        onSubmit={handleSubmit}
+        onCancel={() => navigate('/')}
+        busy={busy}
+        formRef={formRef}
+      />
       <ImagesSection newFiles={files} onNewFilesChange={setFiles} onBack={() => navigate('/')} onSave={save} />
     </div>
   );

@@ -93,6 +93,9 @@ function imageJson(row, noteId) {
   };
 }
 
+// Every file type is allowed for uploads (images, PDFs, docs, sheets, slides…).
+const ALLOWED_UPLOAD_TYPES = ['image/*', 'text/*', 'audio/*', 'video/*', 'application/*'];
+
 function cleanName(raw) {
   return String(raw || '')
     .split(/[\\/]/)
@@ -113,7 +116,7 @@ if (storage.isBlob()) {
         request: req,
         body: req.body,
         onBeforeGenerateToken: async () => ({
-          allowedContentTypes: [],
+          allowedContentTypes: ALLOWED_UPLOAD_TYPES,
           maximumSizeInBytes: MAX_BYTES,
           addRandomSuffix: false,
         }),

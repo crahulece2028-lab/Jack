@@ -5,7 +5,6 @@ import SubjectListItem from './SubjectListItem.jsx';
 export default function Sidebar({ active, onSelect }) {
   const [subjects, setSubjects] = useState(null);
   const [error, setError] = useState('');
-  const [adding, setAdding] = useState(false);
   const [addName, setAddName] = useState('');
   const [managing, setManaging] = useState(false);
 
@@ -29,7 +28,6 @@ export default function Sidebar({ active, onSelect }) {
     try {
       await api.post('/api/subjects', { name: trimmed });
       setAddName('');
-      setAdding(false);
       await load();
     } catch (e) {
       setError(e.message);
@@ -82,58 +80,6 @@ export default function Sidebar({ active, onSelect }) {
           />
         ))}
       </div>
-
-      {adding ? (
-        <div className="sidebar-add-form">
-          <input
-            autoFocus
-            placeholder="Subject name"
-            value={addName}
-            onChange={(e) => setAddName(e.target.value)}
-            onBlur={(e) => {
-              if (!e.currentTarget.parentElement?.contains(e.relatedTarget)) {
-                setAdding(false);
-                setAddName('');
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                create(addName);
-              }
-              if (e.key === 'Escape') {
-                setAdding(false);
-                setAddName('');
-              }
-            }}
-          />
-          <div className="sidebar-add-actions">
-            <button type="button" className="btn btn-ghost btn-sm" onClick={() => create(addName)}>
-              Save
-            </button>
-            <button
-              type="button"
-              className="btn btn-ghost btn-sm"
-              onClick={() => {
-                setAdding(false);
-                setAddName('');
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : (
-        <button
-          type="button"
-          className="sidebar-add"
-          onClick={() => setAdding(true)}
-          title="Add subject"
-          aria-label="Add subject"
-        >
-          + Add subject
-        </button>
-      )}
 
       <button type="button" className="sidebar-manage" onClick={() => setManaging(true)}>
         Manage subjects

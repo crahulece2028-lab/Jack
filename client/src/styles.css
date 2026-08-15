@@ -28,6 +28,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -36,7 +37,15 @@ body {
   background-color: var(--color-background);
   line-height: 1.55;
   min-height: 100vh;
+  min-height: 100dvh;
   font-size: 16px;
+  overflow-x: clip;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 h1,
@@ -58,6 +67,12 @@ a:hover {
 
 button {
   font-family: inherit;
+  touch-action: manipulation;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 textarea {
@@ -340,6 +355,7 @@ textarea {
   display: grid;
   place-items: center;
   min-height: calc(100vh - 120px);
+  min-height: calc(100dvh - 120px);
   padding: 2rem 0;
 }
 
@@ -663,6 +679,19 @@ textarea {
   background: var(--color-surface-hover);
 }
 
+@supports not (aspect-ratio: 1) {
+  .note-thumb {
+    height: 0;
+    padding-top: 75%;
+    position: relative;
+  }
+
+  .note-thumb > * {
+    position: absolute;
+    inset: 0;
+  }
+}
+
 .note-thumb img {
   width: 100%;
   height: 100%;
@@ -761,6 +790,7 @@ textarea {
 
 .note-description {
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   margin: 1.25rem 0;
   padding: 1.2rem 1.4rem;
   background: var(--color-surface);
@@ -1221,12 +1251,21 @@ textarea {
     position: static;
   }
 
+  .sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.5rem;
+  }
+
   .sidebar-list {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     gap: 0.35rem;
     padding-bottom: 0.25rem;
+    flex: 1 1 100%;
   }
 
   .sidebar-item {
@@ -1256,6 +1295,8 @@ textarea {
   .sidebar-add-form {
     flex-direction: row;
     align-items: center;
+    flex: 1 1 100%;
+    order: 5;
   }
 
   .sidebar-manage {
@@ -1270,15 +1311,167 @@ textarea {
     padding: 0 1rem;
   }
 
+  .dash-layout {
+    padding: 1.25rem 0 3rem;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.9rem;
+  }
+
+  .dash-header .btn-primary {
+    width: 100%;
+  }
+
   .dash-toolbar {
     grid-template-columns: 1fr;
   }
 
+  .sort-select {
+    width: 100%;
+    min-width: 0;
+  }
+
   .note-view-header {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .note-view-actions {
+    flex-wrap: wrap;
+  }
+
+  .page-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-actions .btn {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+  }
+
+  .form-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .manage-add {
+    flex-direction: column;
+  }
+
+  .manage-add .btn {
+    width: 100%;
+  }
+
+  .manage-row {
+    flex-wrap: wrap;
+  }
+
+  .manage-count {
+    margin-left: auto;
+  }
+
+  .modal-card {
+    padding: 1.1rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem;
   }
 
   .images-card {
     padding: 1.1rem;
+  }
+
+  .photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .lightbox {
+    padding: 0.5rem;
+  }
+
+  .lb-prev {
+    left: 0.5rem;
+  }
+
+  .lb-next {
+    right: 0.5rem;
+  }
+
+  .lb-close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .field input,
+  .field textarea,
+  .field select,
+  .search-input,
+  .sort-select,
+  .manage-add-input,
+  .manage-rename,
+  .dash-title-input,
+  .sidebar-add-form input {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    padding: 0 0.8rem;
+  }
+
+  .navbar-inner {
+    padding: 0.7rem 0;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .brand-mark {
+    width: 1.7rem;
+    height: 1.7rem;
+    font-size: 0.85rem;
+  }
+
+  .page-title,
+  .note-view-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .dash-title-input {
+    font-size: 1.25rem;
+    width: 100%;
+  }
+
+  .form {
+    padding: 1.1rem;
+  }
+
+  .auth-card {
+    padding: 1.3rem;
+  }
+
+  .modal-backdrop {
+    padding: 0.5rem;
+  }
+
+  .manage-count {
+    display: none;
+  }
+
+  .thumb-item {
+    width: 100px;
+  }
+
+  .empty {
+    padding: 3rem 1rem;
   }
 }

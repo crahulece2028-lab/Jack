@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api, uploadImages } from '../api.js';
 import ImagesSection from '../components/ImagesSection.jsx';
 import NoteForm from '../components/NoteForm.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 export default function EditNote() {
   const { id } = useParams();
@@ -55,12 +56,15 @@ export default function EditNote() {
 
   if (notFound) {
     return (
-      <div className="empty">
-        <h3>Note not found</h3>
-        <button className="btn btn-primary" onClick={() => navigate('/')}>
-          Back to dashboard
-        </button>
-      </div>
+      <EmptyState
+        title="Note not found"
+        message="It may have been deleted."
+        action={
+          <button className="btn btn-primary" onClick={() => navigate('/')}>
+            Back to dashboard
+          </button>
+        }
+      />
     );
   }
 

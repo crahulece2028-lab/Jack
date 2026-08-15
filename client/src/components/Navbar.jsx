@@ -21,9 +21,9 @@ function MoonIcon() {
 export default function Navbar() {
   const [dark, setDark] = useState(() => {
     try {
-      return localStorage.getItem('theme') !== 'light';
+      return localStorage.getItem('theme') === 'dark';
     } catch {
-      return true;
+      return false;
     }
   });
 

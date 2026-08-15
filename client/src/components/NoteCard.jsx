@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../api.js';
+import { timeAgo } from '../api.js';
 import FileIcon from './FileIcon.jsx';
 
 export default function NoteCard({ note }) {
@@ -17,15 +17,14 @@ export default function NoteCard({ note }) {
           </div>
         ) : (
           <div className="note-thumb-empty" aria-hidden="true">
-            Text
+            Text note
           </div>
         )}
       </div>
       <div className="note-card-body">
         <h3 className="note-card-title">{note.title}</h3>
         <div className="note-card-meta">
-          {note.subject && <span className="badge">{note.subject}</span>}
-          <span className="note-date">{formatDate(note.updated_at)}</span>
+          <span className="note-date">{timeAgo(note.updated_at)}</span>
         </div>
       </div>
     </button>

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api, formatDate } from '../api.js';
 import Lightbox from '../components/Lightbox.jsx';
 import FileIcon from '../components/FileIcon.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 export default function NoteView() {
   const { id } = useParams();
@@ -30,12 +31,15 @@ export default function NoteView() {
 
   if (error) {
     return (
-      <div className="empty">
-        <h3>{error}</h3>
-        <Link to="/" className="btn btn-primary">
-          Back to dashboard
-        </Link>
-      </div>
+      <EmptyState
+        title="Could not load this note"
+        message="It may have been moved or deleted."
+        action={
+          <Link to="/" className="btn btn-primary">
+            Back to dashboard
+          </Link>
+        }
+      />
     );
   }
 
@@ -55,7 +59,6 @@ export default function NoteView() {
         <div>
           <h2>{note.title}</h2>
           <div className="note-card-meta">
-            {note.subject && <span className="badge">{note.subject}</span>}
             <span className="note-date">Updated {formatDate(note.updated_at)}</span>
           </div>
         </div>

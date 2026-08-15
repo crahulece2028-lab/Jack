@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import NoteCard from '../components/NoteCard.jsx';
-import SubjectTabs from '../components/SubjectTabs.jsx';
+import Sidebar from '../components/Sidebar.jsx';
+import SearchBar from '../components/SearchBar.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 export default function Dashboard() {
   const [notes, setNotes] = useState(null);
@@ -54,11 +57,24 @@ export default function Dashboard() {
   }, [search, active, sort]);
 
   const heading = active ? active : title;
+  const showNewNote = notes !== null && notes.length > 0;
+
+  let subtitle;
+  if (active) {
+    subtitle =
+      notes === null
+        ? `Loading ${active}…`
+        : notes.length > 0
+          ? `${notes.length} note${notes.length === 1 ? '' : 's'} in ${active}`
+          : `No notes in ${active} yet.`;
+  } else {
+    subtitle = 'Every note, every subject.';
+  }
 
   return (
     <div className="dash-layout">
       <aside className="dash-sidebar">
-        <SubjectTabs active={active} onSelect={setActive} />
+        <Sidebar active={active} onSelect={setActive} />
       </aside>
 
       <div className="dash-main">
@@ -82,7 +98,7 @@ export default function Dashboard() {
               />
             ) : (
               <div className="dash-title-row">
-                <h2>{heading}</h2>
+                <h2 className="page-title">{heading}</h2>
                 {!active && (
                   <button
                     type="button"
@@ -96,20 +112,18 @@ export default function Dashboard() {
                 )}
               </div>
             )}
-            <p className="muted">{active ? `Notes in the ${active} tab.` : 'Search, filter, and jump back in.'}</p>
+            <p className="muted subtitle">{subtitle}</p>
           </div>
+          {showNewNote && (
+            <Link to="/notes/new" className="btn btn-primary">
+              + New note
+            </Link>
+          )}
         </div>
 
-        <div className="filters">
-          <input
-            type="search"
-            className="search-input"
-            placeholder="Search your notes…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label="Search notes"
-          />
-          <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort notes">
+        <div className="dash-toolbar">
+          <SearchBar value={search} onChange={setSearch} />
+          <select value={sort} onChange={(e) => setSort(e.target.value)} className="sort-select" aria-label="Sort notes">
             <option value="recent">Recently updated</option>
             <option value="oldest">Oldest first</option>
             <option value="az">Title A–Z</option>
@@ -121,13 +135,21 @@ export default function Dashboard() {
         {notes === null ? (
           <p className="muted">Loading…</p>
         ) : notes.length === 0 ? (
-          <div className="empty">
-            <h3>No notes found</h3>
-            <p className="muted">Add your first note, or adjust your search.</p>
-            <a href="/notes/new" className="btn btn-primary">
-              + New note
-            </a>
-          </div>
+          <EmptyState
+            title={active ? `No notes in ${active}` : 'No notes yet'}
+            message={
+              active
+                ? 'Add the first note for this subject.'
+                : search.trim()
+                  ? 'Nothing matches your search.'
+                  : 'Your notes will appear here. Add the first one to get started.'
+            }
+            action={
+              <Link to="/notes/new" className="btn btn-primary">
+                + New note
+              </Link>
+            }
+          />
         ) : (
           <div className="notes-grid">
             {notes.map((n) => (

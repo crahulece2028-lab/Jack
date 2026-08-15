@@ -48,7 +48,7 @@ export default function ImageUploader({ files, onChange }) {
           </div>
           <p className="dropzone-title">Drag & drop files here</p>
           <p className="dropzone-sub">or</p>
-          <button type="button" className="btn btn-primary" onClick={openPicker}>
+          <button type="button" className="btn btn-ghost" onClick={openPicker}>
             Choose files
           </button>
           <span className="hint">
@@ -82,7 +82,7 @@ export default function ImageUploader({ files, onChange }) {
               </div>
             ))}
           </div>
-          <button type="button" className="btn btn-primary btn-sm" onClick={openPicker}>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={openPicker}>
             + Add more files
           </button>
         </>

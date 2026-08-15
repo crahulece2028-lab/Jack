@@ -21,10 +21,11 @@ const client = createClient(
     : { url: localUrl() }
 );
 
-await client.execute('PRAGMA foreign_keys = ON');
+await Promise.all([
+  client.execute('PRAGMA foreign_keys = ON'),
+  client.executeMultiple(readFileSync(path.join(__dirname, 'schema.sql'), 'utf8')),
+]);
 if (!remoteUrl) await client.execute('PRAGMA journal_mode = WAL');
-
-await client.executeMultiple(readFileSync(path.join(__dirname, 'schema.sql'), 'utf8'));
 
 // Migrations for databases created before a column existed.
 // CREATE TABLE IF NOT EXISTS above won't alter an existing table.

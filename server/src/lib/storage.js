@@ -2,13 +2,6 @@ import { randomUUID } from 'node:crypto';
 import { createReadStream, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { del } from '@vercel/blob';
-import {
-  DeleteObjectCommand,
-  GetObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_ROOT = path.join(__dirname, '..', '..');
@@ -36,9 +29,17 @@ export function isBlob() {
 }
 
 let s3Client;
+let s3ModulePromise;
 
-function s3() {
+// The AWS SDK is heavy; only load it when the S3 driver is actually used.
+function s3Module() {
+  s3ModulePromise ??= import('@aws-sdk/client-s3');
+  return s3ModulePromise;
+}
+
+async function s3() {
   if (!s3Client) {
+    const { S3Client } = await s3Module();
     s3Client = new S3Client({
       region: process.env.S3_REGION || 'us-east-1',
       endpoint: process.env.S3_ENDPOINT || undefined,
@@ -72,6 +73,7 @@ export async function save(buffer, mime) {
   }
 
   if (isS3()) {
+    const { PutObjectCommand } = await s3Module();
     await s3().send(
       new PutObjectCommand({ Bucket: bucket(), Key: key, Body: buffer, ContentType: mime })
     );
@@ -90,6 +92,7 @@ export async function createStream(key) {
     throw new Error('Blob images are served directly from Vercel, not streamed');
   }
   if (isS3()) {
+    const { GetObjectCommand } = await s3Module();
     const cmd = new GetObjectCommand({ Bucket: bucket(), Key: key });
     const res = await s3().send(cmd);
     return res.Body;
@@ -107,6 +110,7 @@ export async function createStream(key) {
 export async function remove(key) {
   if (isBlob()) {
     try {
+      const { del } = await import('@vercel/blob');
       await del(key);
     } catch {
       // Best-effort delete; orphaned blobs are harmless.
@@ -114,6 +118,7 @@ export async function remove(key) {
     return;
   }
   if (isS3()) {
+    const { DeleteObjectCommand } = await s3Module();
     try {
       await s3().send(new DeleteObjectCommand({ Bucket: bucket(), Key: key }));
     } catch {

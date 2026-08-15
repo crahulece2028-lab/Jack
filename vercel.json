@@ -5,6 +5,7 @@
   "installCommand": "npm run install:all",
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
+  "regions": ["bom1"],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index" },
     { "handle": "filesystem" },

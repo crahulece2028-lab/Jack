@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" role="img" aria-label="jack">
+  <rect width="48" height="48" rx="13" fill="#D97706" />
+  <text
+    x="24"
+    y="34"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="32"
+    font-weight="700"
+    fill="#1D150A"
+    text-anchor="middle"
+  >j</text>
+  <text
+    x="62"
+    y="31"
+    font-family="Inter, 'Segoe UI', system-ui, sans-serif"
+    font-size="26"
+    font-weight="700"
+    fill="#201D18"
+  >jack</text>
+</svg>

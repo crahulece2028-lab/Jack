@@ -28,6 +28,9 @@
   --primary-soft: rgba(217, 119, 6, 0.1);
   --primary-ink: #1d150a;
 
+  --brand: #d97706;
+  --brand-ink: #1d150a;
+
   --danger: #d0342c;
   --danger-soft: rgba(208, 52, 44, 0.08);
   --danger-border: rgba(208, 52, 44, 0.32);
@@ -194,8 +197,8 @@ textarea {
   width: 1.9rem;
   height: 1.9rem;
   border-radius: 8px;
-  background: var(--text);
-  color: var(--bg);
+  background: var(--brand);
+  color: var(--brand-ink);
   font-family: var(--font-serif);
   font-size: 0.95rem;
   font-weight: 700;

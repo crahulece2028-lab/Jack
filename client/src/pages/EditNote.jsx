@@ -78,6 +78,7 @@ export default function EditNote() {
         onRemoveExisting={removeImage}
         newFiles={newFiles}
         onNewFilesChange={setNewFiles}
+        onBack={() => navigate(`/notes/${id}`)}
       />
     </div>
   );

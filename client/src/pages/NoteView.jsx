@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api, formatDate } from '../api.js';
 import Lightbox from '../components/Lightbox.jsx';
+import FileIcon from '../components/FileIcon.jsx';
 
 export default function NoteView() {
   const { id } = useParams();
@@ -40,6 +41,9 @@ export default function NoteView() {
 
   if (!note) return <p className="muted">Loading…</p>;
 
+  const imageAttachments = note.images.filter((img) => !img.mime || img.mime.startsWith('image/'));
+  const fileAttachments = note.images.filter((img) => img.mime && !img.mime.startsWith('image/'));
+
   return (
     <article className="note-view">
       <div className="note-view-header">
@@ -62,21 +66,43 @@ export default function NoteView() {
 
       {note.description && <p className="note-description">{note.description}</p>}
 
-      {note.images.length > 0 ? (
-        <div className="photo-grid">
-          {note.images.map((img, i) => (
-            <button key={img.id} className="photo" onClick={() => setLightbox(i)}>
-              <img src={img.url} alt={`${note.title} page ${i + 1}`} loading="lazy" />
-            </button>
-          ))}
-        </div>
+      {note.images.length === 0 ? (
+        <p className="muted">No files on this note yet.</p>
       ) : (
-        <p className="muted">No images on this note yet.</p>
+        <>
+          {fileAttachments.length > 0 && (
+            <div className="file-list">
+              {fileAttachments.map((f) => (
+                <a
+                  key={f.id}
+                  className="file-item"
+                  href={f.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FileIcon type={f.mime} name={f.name} />
+                  <span className="file-item-name">{f.name || 'File'}</span>
+                  <span className="file-item-open">Open ↗</span>
+                </a>
+              ))}
+            </div>
+          )}
+
+          {imageAttachments.length > 0 && (
+            <div className="photo-grid">
+              {imageAttachments.map((img, i) => (
+                <button key={img.id} className="photo" onClick={() => setLightbox(i)}>
+                  <img src={img.url} alt={`${note.title} page ${i + 1}`} loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       {lightbox !== null && (
         <Lightbox
-          images={note.images}
+          images={imageAttachments}
           index={lightbox}
           onClose={() => setLightbox(null)}
           onNavigate={setLightbox}

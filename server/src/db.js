@@ -33,6 +33,9 @@ const imageCols = (await client.execute('PRAGMA table_info(images)')).rows;
 if (imageCols.length > 0 && !imageCols.some((c) => c.name === 'url')) {
   await client.execute("ALTER TABLE images ADD COLUMN url TEXT NOT NULL DEFAULT ''");
 }
+if (imageCols.length > 0 && !imageCols.some((c) => c.name === 'name')) {
+  await client.execute("ALTER TABLE images ADD COLUMN name TEXT NOT NULL DEFAULT ''");
+}
 
 const db = {
   all: async (sql, ...args) => (await client.execute({ sql, args })).rows,

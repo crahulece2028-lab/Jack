@@ -98,15 +98,25 @@ test('upload an image to a note and stream it back', async () => {
   assert.match(file.headers.get('content-type'), /image\/png/);
 });
 
-test('rejects non-image uploads', async () => {
-  const note = await createNote({ title: 'Bad upload', tags: [] });
+test('accepts non-image file uploads (pdf, txt, etc.)', async () => {
+  const note = await createNote({ title: 'Attachments', tags: [] });
   const form = new FormData();
-  form.append('images', new Blob(['hello'], { type: 'text/plain' }), 'evil.txt');
+  form.append('images', new Blob(['%PDF-1.4 test'], { type: 'application/pdf' }), 'notes.pdf');
+  form.append('images', new Blob(['hello'], { type: 'text/plain' }), 'notes.txt');
   const res = await fetch(`${base}/api/notes/${note.id}/images`, {
     method: 'POST',
     body: form,
   });
-  assert.equal(res.status, 400);
+  assert.equal(res.status, 201);
+  const { images } = await res.json();
+  assert.equal(images.length, 2);
+  assert.ok(images.every((img) => img.url.startsWith(`/api/notes/${note.id}/images/`)));
+  assert.ok(images.some((img) => img.mime === 'application/pdf' && img.name === 'notes.pdf'));
+  assert.ok(images.some((img) => img.mime === 'text/plain' && img.name === 'notes.txt'));
+
+  const file = await fetch(`${base}${images[0].url}`);
+  assert.equal(file.status, 200);
+  assert.match(file.headers.get('content-type'), /application\/pdf/);
 });
 
 test('search returns only matching notes', async () => {

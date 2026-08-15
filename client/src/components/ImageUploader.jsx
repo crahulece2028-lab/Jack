@@ -1,13 +1,15 @@
 import { useRef, useState } from 'react';
+import FileIcon from './FileIcon.jsx';
+
+const isImage = (f) => f.type.startsWith('image/');
 
 export default function ImageUploader({ files, onChange }) {
   const inputRef = useRef(null);
   const [dragOver, setDragOver] = useState(false);
 
   const addFiles = (incoming) => {
-    const filtered = incoming.filter((f) => f.type.startsWith('image/'));
-    if (filtered.length === 0) return;
-    onChange([...files, ...filtered]);
+    if (incoming.length === 0) return;
+    onChange([...files, ...incoming]);
   };
 
   const onInput = (e) => {
@@ -37,29 +39,26 @@ export default function ImageUploader({ files, onChange }) {
         <div className="dropzone-icon" aria-hidden="true">
           +
         </div>
-        <p className="dropzone-title">Drag & drop images here</p>
+        <p className="dropzone-title">Drag & drop files here</p>
         <p className="dropzone-sub">or</p>
         <button type="button" className="btn btn-primary" onClick={() => inputRef.current?.click()}>
-          Choose images
+          Choose files
         </button>
         <span className="hint">
-          Photos of handwritten notes work great. JPG, PNG, WebP or GIF — up to 10 MB each.
+          PDFs, images, Word, Excel, PowerPoint and more — up to 10 MB each.
         </span>
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          hidden
-          onChange={onInput}
-        />
+        <input ref={inputRef} type="file" multiple hidden onChange={onInput} />
       </div>
 
       {files.length > 0 && (
         <div className="thumb-grid">
           {files.map((f, i) => (
             <div className="thumb-item" key={`${f.name}-${i}`}>
-              <img src={URL.createObjectURL(f)} alt={f.name} />
+              {isImage(f) ? (
+                <img src={URL.createObjectURL(f)} alt={f.name} />
+              ) : (
+                <FileIcon type={f.type} name={f.name} />
+              )}
               <button
                 type="button"
                 className="thumb-remove"

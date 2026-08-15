@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS images (
   mime        TEXT    NOT NULL DEFAULT 'image/jpeg',
   -- Full public URL when the image lives in Vercel Blob (empty for local disk).
   url         TEXT    NOT NULL DEFAULT '',
+  -- Original file name for display (files/attachments, not just images).
+  name        TEXT    NOT NULL DEFAULT '',
   created_at  TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 

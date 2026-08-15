@@ -28,7 +28,7 @@ export default function NewNote() {
       <h2>New note</h2>
       {error && <p className="error">{error}</p>}
       <NoteForm onSubmit={handleSubmit} onCancel={() => navigate('/')} busy={busy} />
-      <ImagesSection newFiles={files} onNewFilesChange={setFiles} />
+      <ImagesSection newFiles={files} onNewFilesChange={setFiles} onBack={() => navigate('/')} />
     </div>
   );
 }

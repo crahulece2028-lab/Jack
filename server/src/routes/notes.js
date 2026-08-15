@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { handleUpload } from '@vercel/blob/client';
 import db from '../db.js';
-import { ACCEPTED_MIMES, upload } from '../middleware/upload.js';
+import { MAX_BYTES, upload } from '../middleware/upload.js';
 import * as storage from '../lib/storage.js';
 
 const router = Router();
@@ -42,6 +42,8 @@ function noteToJson(row, images = []) {
     images: images.map((img) => ({
       id: img.id,
       url: `/api/notes/${row.id}/images/${img.id}/file`,
+      mime: img.mime || '',
+      name: img.name || '',
     })),
   };
 }
@@ -82,8 +84,22 @@ function resolveTitle(title, description, subject) {
   return snippet || subject || 'Untitled note';
 }
 
-function imageJson(id, noteId, imageId) {
-  return { id, url: `/api/notes/${noteId}/images/${imageId}/file` };
+function imageJson(row, noteId) {
+  return {
+    id: row.id,
+    url: `/api/notes/${noteId}/images/${row.id}/file`,
+    mime: row.mime || '',
+    name: row.name || '',
+  };
+}
+
+function cleanName(raw) {
+  return String(raw || '')
+    .split(/[\\/]/)
+    .pop()
+    .replace(/[^\w.\- ]+/g, '')
+    .trim()
+    .slice(0, 120);
 }
 
 /* ---------- blob upload token (Vercel Blob only) ---------- */
@@ -97,8 +113,8 @@ if (storage.isBlob()) {
         request: req,
         body: req.body,
         onBeforeGenerateToken: async () => ({
-          allowedContentTypes: [...ACCEPTED_MIMES],
-          maximumSizeInBytes: 10 * 1024 * 1024,
+          allowedContentTypes: [],
+          maximumSizeInBytes: MAX_BYTES,
           addRandomSuffix: false,
         }),
       });
@@ -236,25 +252,30 @@ router.post('/:id(\\d+)/images', upload.array('images', 10), async (req, res, ne
       for (const b of req.body.blobs) {
         const url = String(b?.url || '');
         const pathname = String(b?.pathname || '');
-        const mime = ACCEPTED_MIMES.has(b?.mime) ? b.mime : 'image/jpeg';
         if (!/^https:\/\//.test(url) || !pathname) {
           return res.status(400).json({ error: 'Invalid blob reference' });
         }
-        blobs.push({ url, pathname, mime });
+        blobs.push({
+          url,
+          pathname,
+          mime: String(b?.mime || '').slice(0, 100) || 'application/octet-stream',
+          name: cleanName(b?.name || ''),
+        });
       }
-      if (!blobs.length) return res.status(400).json({ error: 'No images provided' });
+      if (!blobs.length) return res.status(400).json({ error: 'No files provided' });
 
       const created = [];
       for (const blob of blobs) {
         const result = await db.run(
-          `INSERT INTO images (note_id, storage_key, mime, url)
-           VALUES (?, ?, ?, ?) RETURNING id`,
+          `INSERT INTO images (note_id, storage_key, mime, url, name)
+           VALUES (?, ?, ?, ?, ?) RETURNING id, mime, name`,
           id,
           blob.pathname,
           blob.mime,
-          blob.url
+          blob.url,
+          blob.name
         );
-        created.push(imageJson(result.rows[0].id, id, result.rows[0].id));
+        created.push(imageJson(result.rows[0], id));
       }
 
       await db.run('UPDATE notes SET updated_at = ? WHERE id = ?', new Date().toISOString(), id);
@@ -264,21 +285,22 @@ router.post('/:id(\\d+)/images', upload.array('images', 10), async (req, res, ne
 
     // Multipart mode: files arrive in the request body.
     if (!req.files || !req.files.length) {
-      return res.status(400).json({ error: 'No images provided (field "images")' });
+      return res.status(400).json({ error: 'No files provided (field "images")' });
     }
 
     const created = [];
     for (const file of req.files) {
       const key = await storage.save(file.buffer, file.mimetype);
       const result = await db.run(
-        `INSERT INTO images (note_id, storage_key, mime, url)
-         VALUES (?, ?, ?, ?) RETURNING id`,
+        `INSERT INTO images (note_id, storage_key, mime, url, name)
+         VALUES (?, ?, ?, ?, ?) RETURNING id, mime, name`,
         id,
         key,
         file.mimetype,
-        ''
+        '',
+        cleanName(file.originalname || '')
       );
-      created.push(imageJson(result.rows[0].id, id, result.rows[0].id));
+      created.push(imageJson(result.rows[0], id));
     }
 
     await db.run('UPDATE notes SET updated_at = ? WHERE id = ?', new Date().toISOString(), id);

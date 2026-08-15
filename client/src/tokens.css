@@ -22,8 +22,10 @@
   --primitive-color-ivory-50: #F2EFE9;
   --primitive-color-ivory-300: #A69E91;
   --primitive-color-ivory-500: #6F685C;
+  --primitive-color-blue-400: #60A5FA;
   --primitive-color-blue-500: #3B82F6;
   --primitive-color-blue-600: #2563EB;
+  --primitive-color-blue-700: #1D4ED8;
   --primitive-color-red-200: #F0A1A0;
   --primitive-color-red-600: #D0342C;
   --primitive-color-cream: #FAF6ED;
@@ -63,14 +65,14 @@
   --color-placeholder: #98917F;
   --color-border: #E9E3D7;
   --color-border-strong: #D7D0C0;
-  --color-primary: #D97706;
-  --color-primary-hover: #B45309;
-  --color-primary-soft: rgba(217, 119, 6, 0.1);
-  --color-on-primary: #1D150A;
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-soft: rgba(37, 99, 235, 0.1);
+  --color-on-primary: #FFFFFF;
   --color-tab-active: #2563EB;
   --color-tab-active-soft: rgba(37, 99, 235, 0.12);
-  --color-brand: #D97706;
-  --color-brand-ink: #1D150A;
+  --color-brand: #2563EB;
+  --color-brand-ink: #FFFFFF;
   --color-danger: #D0342C;
   --color-danger-soft: rgba(208, 52, 44, 0.08);
   --color-danger-border: rgba(208, 52, 44, 0.32);
@@ -94,9 +96,9 @@
 
 /* === COMPONENTS === */
 :root {
-  --button-bg: #D97706;
-  --button-fg: #1D150A;
-  --button-hover-bg: #B45309;
+  --button-bg: #2563EB;
+  --button-fg: #FFFFFF;
+  --button-hover-bg: #1D4ED8;
   --button-border: #E9E3D7;
   --button-radius: 8px;
   --button-padding-y: 0.5rem;
@@ -106,7 +108,7 @@
   --card-radius: 12px;
   --input-bg: #FFFFFF;
   --input-border: #E9E3D7;
-  --input-focus-ring: #D97706;
+  --input-focus-ring: #2563EB;
   --input-radius: 8px;
   --input-padding-y: 0.5rem;
   --input-padding-x: 0.75rem;
@@ -124,9 +126,9 @@
   --color-placeholder: #6F685C;
   --color-border: #332E28;
   --color-border-strong: #453E34;
-  --color-primary: #F59E0B;
-  --color-primary-hover: #FBBF24;
-  --color-primary-soft: rgba(245, 158, 11, 0.14);
+  --color-primary: #3B82F6;
+  --color-primary-hover: #60A5FA;
+  --color-primary-soft: rgba(59, 130, 246, 0.18);
   --color-tab-active: #3B82F6;
   --color-tab-active-soft: rgba(59, 130, 246, 0.18);
   --color-danger: #F0A1A0;

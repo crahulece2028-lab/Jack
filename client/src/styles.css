@@ -363,7 +363,7 @@ textarea {
 
 .dash-layout {
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 2.5rem;
   align-items: start;
   padding: 2.25rem 0 4rem;
@@ -477,25 +477,26 @@ textarea {
 }
 
 .sidebar-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem;
 }
 
 .sidebar-item {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 0.3rem;
   width: 100%;
-  padding: 0.5rem 0.7rem;
+  padding: 0.5rem 0.4rem;
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-foreground);
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -509,11 +510,16 @@ textarea {
   font-weight: 600;
 }
 
+.sidebar-item-wide {
+  grid-column: 1 / -1;
+}
+
 .sidebar-name {
-  flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 0 1 auto;
 }
 
 .sidebar-count {
@@ -1217,6 +1223,7 @@ textarea {
   }
 
   .sidebar-list {
+    display: flex;
     flex-direction: row;
     overflow-x: auto;
     gap: 0.35rem;
@@ -1226,6 +1233,10 @@ textarea {
   .sidebar-item {
     width: auto;
     white-space: nowrap;
+  }
+
+  .sidebar-item-wide {
+    grid-column: auto;
   }
 
   .sidebar-name {

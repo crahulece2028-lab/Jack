@@ -76,6 +76,7 @@ export default function Sidebar({ active, onSelect }) {
           count={total}
           active={active === ''}
           onClick={() => onSelect('')}
+          wide
         />
         {(subjects || []).map((s) => (
           <SubjectListItem

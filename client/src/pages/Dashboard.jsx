@@ -131,9 +131,11 @@ export default function Dashboard() {
             )}
             <p className="muted subtitle">{subtitle}</p>
           </div>
-          <Link to="/notes/new" className="btn btn-primary">
-            + New note
-          </Link>
+          {active && (
+            <Link to="/notes/new" className="btn btn-primary">
+              + New note
+            </Link>
+          )}
         </div>
 
         <div className="dash-toolbar">
@@ -157,12 +159,14 @@ export default function Dashboard() {
                 ? 'Add the first note for this subject.'
                 : search.trim()
                   ? 'Nothing matches your search.'
-                  : 'Your notes will appear here. Add the first one to get started.'
+                  : 'Your notes will appear here.'
             }
             action={
-              <Link to="/notes/new" className="btn btn-primary">
-                + New note
-              </Link>
+              active ? (
+                <Link to="/notes/new" className="btn btn-primary">
+                  + New note
+                </Link>
+              ) : null
             }
           />
         ) : (

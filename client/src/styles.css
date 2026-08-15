@@ -327,6 +327,14 @@ textarea {
   gap: 0.75rem;
 }
 
+.page-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
 .hint {
   font-size: 0.85rem;
   color: var(--muted);
@@ -485,6 +493,11 @@ textarea {
 
 .note-view {
   padding: 1.5rem 0;
+}
+
+.note-view-back {
+  display: flex;
+  margin-bottom: 1rem;
 }
 
 .note-view-header {
@@ -798,6 +811,7 @@ textarea {
 .images-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 0.75rem;
   margin-top: 1.25rem;
 }
 

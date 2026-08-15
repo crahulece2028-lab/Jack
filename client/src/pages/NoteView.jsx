@@ -46,6 +46,11 @@ export default function NoteView() {
 
   return (
     <article className="note-view">
+      <div className="note-view-back">
+        <Link to="/" className="btn btn-ghost">
+          ← Back to home
+        </Link>
+      </div>
       <div className="note-view-header">
         <div>
           <h2>{note.title}</h2>

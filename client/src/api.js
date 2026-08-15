@@ -28,8 +28,8 @@ let configPromise;
 export function getConfig(force = false) {
   if (!configPromise || force) {
     configPromise = fetch(`${BASE}/api/config`, { credentials: 'include' })
-      .then((r) => r.json().catch(() => ({ blob: false, maxImageBytes: 10 * 1024 * 1024 })))
-      .catch(() => ({ blob: false, maxImageBytes: 10 * 1024 * 1024 }));
+      .then((r) => r.json().catch(() => ({ blob: false, maxImageBytes: 500 * 1024 * 1024 })))
+      .catch(() => ({ blob: false, maxImageBytes: 500 * 1024 * 1024 }));
   }
   return configPromise;
 }

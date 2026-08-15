@@ -9,6 +9,7 @@ export default function ImagesSection({
   existing = [],
   onRemoveExisting,
   onBack,
+  onSave,
 }) {
   const total = existing.length + newFiles.length;
 
@@ -56,11 +57,18 @@ export default function ImagesSection({
 
       <ImageUploader files={newFiles} onChange={onNewFilesChange} />
 
-      {onBack && (
+      {(onBack || onSave) && (
         <div className="images-footer">
-          <button type="button" className="btn btn-ghost" onClick={onBack}>
-            ← Back
-          </button>
+          {onBack && (
+            <button type="button" className="btn btn-ghost" onClick={onBack}>
+              ← Back
+            </button>
+          )}
+          {onSave && (
+            <button type="button" className="btn btn-primary" onClick={onSave}>
+              Save
+            </button>
+          )}
         </div>
       )}
     </section>

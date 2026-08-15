@@ -30,7 +30,7 @@ export function createApp() {
   });
 
   app.get('/api/config', (req, res) => {
-    res.json({ blob: isBlob(), maxImageBytes: 10 * 1024 * 1024 });
+    res.json({ blob: isBlob(), maxImageBytes: 500 * 1024 * 1024 });
   });
 
   app.use('/api/notes', notesRoutes);

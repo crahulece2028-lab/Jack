@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api, uploadImages } from '../api.js';
 import ImagesSection from '../components/ImagesSection.jsx';
@@ -7,6 +7,7 @@ import NoteForm from '../components/NoteForm.jsx';
 export default function EditNote() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const formRef = useRef(null);
   const [note, setNote] = useState(null);
   const [existingImages, setExistingImages] = useState([]);
   const [newFiles, setNewFiles] = useState([]);
@@ -40,6 +41,8 @@ export default function EditNote() {
     [id, newFiles, navigate]
   );
 
+  const save = () => formRef.current?.requestSubmit();
+
   const removeImage = async (img) => {
     setExistingImages((list) => list.filter((x) => x.id !== img.id));
     try {
@@ -65,6 +68,15 @@ export default function EditNote() {
 
   return (
     <div>
+      <div className="page-actions">
+        <button type="button" className="btn btn-ghost" onClick={() => navigate(`/notes/${id}`)}>
+          ← Back
+        </button>
+        <button type="button" className="btn btn-primary" onClick={save} disabled={busy}>
+          {busy ? 'Saving…' : 'Save'}
+        </button>
+      </div>
+
       <h2>Edit note</h2>
       {error && <p className="error">{error}</p>}
       <NoteForm
@@ -72,6 +84,7 @@ export default function EditNote() {
         onSubmit={handleSubmit}
         onCancel={() => navigate(`/notes/${id}`)}
         busy={busy}
+        formRef={formRef}
       />
       <ImagesSection
         existing={existingImages}
@@ -79,6 +92,7 @@ export default function EditNote() {
         newFiles={newFiles}
         onNewFilesChange={setNewFiles}
         onBack={() => navigate(`/notes/${id}`)}
+        onSave={save}
       />
     </div>
   );

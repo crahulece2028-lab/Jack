@@ -45,7 +45,7 @@ export default function ImageUploader({ files, onChange }) {
           Choose files
         </button>
         <span className="hint">
-          PDFs, images, Word, Excel, PowerPoint and more — up to 10 MB each.
+          PDFs, images, Word, Excel, PowerPoint and more — up to 500 MB each.
         </span>
         <input ref={inputRef} type="file" multiple hidden onChange={onInput} />
       </div>

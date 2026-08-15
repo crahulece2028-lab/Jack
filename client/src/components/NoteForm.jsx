@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function NoteForm({ initial, onSubmit, onCancel, busy }) {
+export default function NoteForm({ initial, onSubmit, onCancel, busy, formRef }) {
   const [subject, setSubject] = useState(initial?.subject || '');
   const [description, setDescription] = useState(initial?.description || '');
 
@@ -10,7 +10,7 @@ export default function NoteForm({ initial, onSubmit, onCancel, busy }) {
   };
 
   return (
-    <form className="card form" onSubmit={handleSubmit}>
+    <form className="card form" onSubmit={handleSubmit} ref={formRef}>
       <div className="field">
         <label htmlFor="subject">Subject</label>
         <input

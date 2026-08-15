@@ -216,3 +216,12 @@ test('subject tabs can be created, listed, renamed and deleted', async () => {
   const view2 = await get(`/api/notes/${note.id}`);
   assert.equal((await view2.json()).note.subject, '');
 });
+
+test('dashboard title setting can be saved and read', async () => {
+  const put = await send('PUT', '/api/settings', { dashboardTitle: 'Semester 2' });
+  assert.equal(put.status, 200);
+  assert.equal((await put.json()).dashboardTitle, 'Semester 2');
+
+  const got = await get('/api/settings');
+  assert.equal((await got.json()).dashboardTitle, 'Semester 2');
+});

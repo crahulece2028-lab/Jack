@@ -9,6 +9,31 @@ export default function Dashboard() {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('recent');
   const [error, setError] = useState('');
+  const [title, setTitle] = useState('Your notes');
+  const [titleInput, setTitleInput] = useState('Your notes');
+  const [editingTitle, setEditingTitle] = useState(false);
+
+  useEffect(() => {
+    api
+      .get('/api/settings')
+      .then((d) => {
+        setTitle(d.dashboardTitle || 'Your notes');
+        setTitleInput(d.dashboardTitle || 'Your notes');
+      })
+      .catch(() => {});
+  }, []);
+
+  const saveTitle = async () => {
+    const t = titleInput.trim() || 'Your notes';
+    setTitle(t);
+    setTitleInput(t);
+    setEditingTitle(false);
+    try {
+      await api.put('/api/settings', { dashboardTitle: t });
+    } catch (e) {
+      setError(e.message);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -28,6 +53,8 @@ export default function Dashboard() {
     };
   }, [search, active, sort]);
 
+  const heading = active ? active : title;
+
   return (
     <div className="dash-layout">
       <aside className="dash-sidebar">
@@ -37,7 +64,38 @@ export default function Dashboard() {
       <div className="dash-main">
         <div className="dash-header">
           <div>
-            <h2>{active ? active : 'Your notes'}</h2>
+            {editingTitle ? (
+              <input
+                autoFocus
+                className="dash-title-input"
+                value={titleInput}
+                onChange={(e) => setTitleInput(e.target.value)}
+                onBlur={saveTitle}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') e.currentTarget.blur();
+                  if (e.key === 'Escape') {
+                    setTitleInput(title);
+                    setEditingTitle(false);
+                  }
+                }}
+                aria-label="Dashboard title"
+              />
+            ) : (
+              <div className="dash-title-row">
+                <h2>{heading}</h2>
+                {!active && (
+                  <button
+                    type="button"
+                    className="dash-title-edit"
+                    onClick={() => setEditingTitle(true)}
+                    aria-label="Edit title"
+                    title="Rename (e.g. Semester 2)"
+                  >
+                    ✎
+                  </button>
+                )}
+              </div>
+            )}
             <p className="muted">{active ? `Notes in the ${active} tab.` : 'Search, filter, and jump back in.'}</p>
           </div>
         </div>

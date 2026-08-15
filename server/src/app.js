@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import notesRoutes from './routes/notes.js';
+import settingsRoutes from './routes/settings.js';
 import subjectsRoutes from './routes/subjects.js';
 import { MAX_BYTES } from './middleware/upload.js';
 import { isBlob, usesLocalDisk } from './lib/storage.js';
@@ -36,6 +37,7 @@ export function createApp() {
   });
 
   app.use('/api/notes', notesRoutes);
+  app.use('/api/settings', settingsRoutes);
   app.use('/api/subjects', subjectsRoutes);
 
   if (usesLocalDisk() && !onVercel) {

@@ -21,7 +21,7 @@ export default function NoteForm({ initial, onSubmit, onCancel, busy, formRef })
   return (
     <form className="card form" onSubmit={handleSubmit} ref={formRef}>
       <div className="field">
-        <label htmlFor="subject">Subject</label>
+        <label htmlFor="subject">Topic name</label>
         <input
           id="subject"
           type="text"

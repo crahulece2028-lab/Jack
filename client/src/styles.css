@@ -509,30 +509,30 @@ textarea {
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 0.6rem;
+  padding: 0.4rem;
 }
 
 .sidebar-list {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.05rem;
 }
 
 .sidebar-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.5rem 0.65rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text);
-  font-size: 0.94rem;
+  font-size: 0.87rem;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
@@ -550,8 +550,8 @@ textarea {
 }
 
 .sidebar-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   border-radius: 50%;
   flex-shrink: 0;
   background: var(--border-strong);
@@ -576,7 +576,7 @@ textarea {
 }
 
 .sidebar-count {
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
@@ -591,13 +591,13 @@ textarea {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0.5rem 0.65rem;
-  margin-top: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  margin-top: 0.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
@@ -622,13 +622,13 @@ textarea {
 }
 
 .sidebar-manage {
-  margin-top: 0.35rem;
-  padding: 0.45rem 0.65rem 0.15rem;
+  margin-top: 0.25rem;
+  padding: 0.3rem 0.5rem 0.1rem;
   border: none;
   border-top: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   cursor: pointer;
   text-align: left;
   transition: color 0.15s;

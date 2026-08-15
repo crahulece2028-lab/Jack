@@ -37,6 +37,14 @@ if (imageCols.length > 0 && !imageCols.some((c) => c.name === 'name')) {
   await client.execute("ALTER TABLE images ADD COLUMN name TEXT NOT NULL DEFAULT ''");
 }
 
+// Backfill dashboard tabs from notes that already carry a subject (idempotent).
+await client.execute(
+  `INSERT OR IGNORE INTO subjects (name, color, position)
+   SELECT DISTINCT n.subject, '#818cf8', 0 FROM notes n
+   WHERE n.subject != ''
+     AND NOT EXISTS (SELECT 1 FROM subjects s WHERE LOWER(s.name) = LOWER(n.subject))`
+);
+
 const db = {
   all: async (sql, ...args) => (await client.execute({ sql, args })).rows,
   get: async (sql, ...args) => (await client.execute({ sql, args })).rows[0],

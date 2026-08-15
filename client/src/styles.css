@@ -936,6 +936,19 @@ textarea {
   font-size: 1rem;
 }
 
+.dropzone.has-files {
+  padding: 1.25rem;
+  cursor: pointer;
+}
+
+.dropzone.has-files .thumb-grid {
+  margin-bottom: 0.35rem;
+}
+
+.dropzone.has-files .btn {
+  margin: 0;
+}
+
 .thumb-grid {
   display: flex;
   flex-wrap: wrap;

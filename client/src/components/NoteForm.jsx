@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from '../api.js';
 
 export default function NoteForm({ initial, onSubmit, onCancel, busy, formRef }) {
   const [subject, setSubject] = useState(initial?.subject || '');
   const [description, setDescription] = useState(initial?.description || '');
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    api
+      .get('/api/subjects')
+      .then((d) => setSubjects(d.subjects))
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +29,13 @@ export default function NoteForm({ initial, onSubmit, onCancel, busy, formRef })
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="e.g. Biology"
+          list="subject-tabs"
         />
+        <datalist id="subject-tabs">
+          {subjects.map((s) => (
+            <option key={s.id} value={s.name} />
+          ))}
+        </datalist>
       </div>
 
       <div className="field">

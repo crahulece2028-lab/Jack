@@ -182,3 +182,37 @@ test('delete a note', async () => {
   const gone = await get(`/api/notes/${note.id}`);
   assert.equal(gone.status, 404);
 });
+
+test('saving a note with a new subject creates a tab automatically', async () => {
+  await createNote({ title: 'Organic chemistry', subject: 'Chemistry', tags: [] });
+  const list = await get('/api/subjects');
+  const names = (await list.json()).subjects.map((s) => s.name);
+  assert.ok(names.includes('Chemistry'));
+});
+
+test('subject tabs can be created, listed, renamed and deleted', async () => {
+  const created = await send('POST', '/api/subjects', { name: 'Art', color: '#111111' });
+  assert.equal(created.status, 201);
+  const art = (await created.json()).subject;
+  assert.equal(art.name, 'Art');
+  assert.equal(art.color, '#111111');
+
+  const dup = await send('POST', '/api/subjects', { name: ' art ' });
+  assert.equal(dup.status, 400);
+
+  const list = await get('/api/subjects');
+  const names = (await list.json()).subjects.map((s) => s.name);
+  assert.ok(names.includes('Art'));
+
+  const note = await createNote({ title: 'Painting', subject: 'Art', tags: [] });
+
+  const renamed = await send('PUT', `/api/subjects/${art.id}`, { name: 'Fine Arts' });
+  assert.equal(renamed.status, 200);
+  const view = await get(`/api/notes/${note.id}`);
+  assert.equal((await view.json()).note.subject, 'Fine Arts');
+
+  const del = await send('DELETE', `/api/subjects/${art.id}`);
+  assert.equal(del.status, 200);
+  const view2 = await get(`/api/notes/${note.id}`);
+  assert.equal((await view2.json()).note.subject, '');
+});

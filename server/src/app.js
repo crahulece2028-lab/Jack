@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import notesRoutes from './routes/notes.js';
+import subjectsRoutes from './routes/subjects.js';
+import { MAX_BYTES } from './middleware/upload.js';
 import { isBlob, usesLocalDisk } from './lib/storage.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -34,6 +36,7 @@ export function createApp() {
   });
 
   app.use('/api/notes', notesRoutes);
+  app.use('/api/subjects', subjectsRoutes);
 
   if (usesLocalDisk() && !onVercel) {
     const uploadsDir = path.isAbsolute(process.env.UPLOAD_DIR || '')
@@ -57,7 +60,7 @@ export function createApp() {
     const status = err.status || (err.code === 'LIMIT_FILE_SIZE' ? 413 : 500);
     const message =
       err.code === 'LIMIT_FILE_SIZE'
-        ? 'File is too large (max 10 MB)'
+        ? `File is too large (max ${Math.round(MAX_BYTES / (1024 * 1024))} MB)`
         : err.message || 'Internal server error';
     if (status >= 500) console.error(err);
     res.status(status).json({ error: message });

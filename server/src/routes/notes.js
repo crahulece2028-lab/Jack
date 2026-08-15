@@ -3,6 +3,7 @@ import { handleUpload } from '@vercel/blob/client';
 import db from '../db.js';
 import { MAX_BYTES, upload } from '../middleware/upload.js';
 import * as storage from '../lib/storage.js';
+import { SUBJECT_PALETTE } from './subjects.js';
 
 const router = Router();
 
@@ -95,6 +96,27 @@ function imageJson(row, noteId) {
 
 // Every file type is allowed for uploads (images, PDFs, docs, sheets, slides…).
 const ALLOWED_UPLOAD_TYPES = ['image/*', 'text/*', 'audio/*', 'video/*', 'application/*'];
+
+// Make sure a dashboard tab exists for the note's subject, creating it if
+// needed (with the next palette colour). Notes keep subject as free text.
+async function ensureSubject(name) {
+  if (!name) return;
+  const exists = await db.get('SELECT id FROM subjects WHERE LOWER(name) = LOWER(?)', name);
+  if (exists) return;
+  const { rows } = await db.run(
+    `INSERT INTO subjects (name, color, position)
+     VALUES (?, ?, (SELECT COALESCE(MAX(position), 0) + 1 FROM subjects))
+     RETURNING id, position`,
+    name,
+    SUBJECT_PALETTE[0]
+  );
+  const pos = Number(rows[0].position);
+  await db.run(
+    'UPDATE subjects SET color = ? WHERE id = ?',
+    SUBJECT_PALETTE[pos % SUBJECT_PALETTE.length],
+    rows[0].id
+  );
+}
 
 function cleanName(raw) {
   return String(raw || '')
@@ -191,6 +213,7 @@ router.post('/', async (req, res, next) => {
       description,
       toCsv(tags)
     );
+    await ensureSubject(subject);
     const note = await getNote(result.rows[0].id);
     res.status(201).json({ note: noteToJson(note) });
   } catch (e) {
@@ -217,6 +240,7 @@ router.put('/:id(\\d+)', async (req, res, next) => {
       new Date().toISOString(),
       id
     );
+    await ensureSubject(subject);
 
     const note = await getNote(id);
     res.json({ note: noteToJson(note, note.images) });

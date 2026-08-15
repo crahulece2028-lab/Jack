@@ -27,3 +27,14 @@ CREATE TABLE IF NOT EXISTS images (
 );
 
 CREATE INDEX IF NOT EXISTS idx_images_note ON images(note_id);
+
+-- Dashboard subject tabs. Notes keep their subject as free text; tabs are
+-- created automatically when a note uses a new subject, and can be
+-- renamed, recoloured, or deleted from the dashboard.
+CREATE TABLE IF NOT EXISTS subjects (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT    NOT NULL UNIQUE,
+  color      TEXT    NOT NULL DEFAULT '#818cf8',
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

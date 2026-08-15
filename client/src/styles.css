@@ -1,5 +1,5 @@
 /* =============================================================
-   jack — flat, calm UI
+   jack — flat, calm, warm-minimal UI
    Light is the default theme (html[data-theme]), dark is the
    toggle. All colors are CSS variables; no gradients, no blur,
    no glow. One accent (--primary) reserved for the primary
@@ -11,22 +11,22 @@
 :root {
   color-scheme: light;
 
-  --bg: #fafaf9;
+  --bg: #faf6ed;
   --surface: #ffffff;
-  --surface-hover: #f3f3f1;
-  --surface-active: #ececea;
+  --surface-hover: #f4f0e6;
+  --surface-active: #ece6d8;
 
-  --text: #1c1c1a;
-  --muted: #6e6e68;
-  --placeholder: #9a9a93;
+  --text: #201d18;
+  --muted: #6b6457;
+  --placeholder: #98917f;
 
-  --border: #e7e6e2;
-  --border-strong: #d6d5d0;
+  --border: #e9e3d7;
+  --border-strong: #d7d0c0;
 
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-soft: rgba(79, 70, 229, 0.08);
-  --primary-ink: #ffffff;
+  --primary: #d97706;
+  --primary-hover: #b45309;
+  --primary-soft: rgba(217, 119, 6, 0.1);
+  --primary-ink: #1d150a;
 
   --danger: #d0342c;
   --danger-soft: rgba(208, 52, 44, 0.08);
@@ -42,22 +42,22 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #161618;
-  --surface: #1e1e21;
-  --surface-hover: #262629;
-  --surface-active: #2c2c30;
+  --bg: #1a1714;
+  --surface: #221e1a;
+  --surface-hover: #2a2621;
+  --surface-active: #332e28;
 
-  --text: #f0f0ed;
-  --muted: #a2a29c;
-  --placeholder: #6f6f6a;
+  --text: #f2efe9;
+  --muted: #a69e91;
+  --placeholder: #6f685c;
 
-  --border: #2b2b2f;
-  --border-strong: #3b3b40;
+  --border: #332e28;
+  --border-strong: #453e34;
 
-  --primary: #8188f5;
-  --primary-hover: #949af7;
-  --primary-soft: rgba(129, 136, 245, 0.14);
-  --primary-ink: #141417;
+  --primary: #f59e0b;
+  --primary-hover: #fbbf24;
+  --primary-soft: rgba(245, 158, 11, 0.14);
+  --primary-ink: #1d150a;
 
   --danger: #f0a1a0;
   --danger-soft: rgba(240, 161, 160, 0.12);
@@ -119,6 +119,16 @@ textarea {
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 .container {

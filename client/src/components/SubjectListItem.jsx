@@ -1,9 +1,9 @@
-export default function SubjectListItem({ name, count, active, onClick, onRemove, wide }) {
+export default function SubjectListItem({ name, count, active, onClick, onRemove }) {
   const n = Number(count) || 0;
   return (
     <button
       type="button"
-      className={`sidebar-item${active ? ' active' : ''}${wide ? ' sidebar-item-wide' : ''}`}
+      className={`sidebar-item${active ? ' active' : ''}`}
       onClick={onClick}
     >
       <span className="sidebar-name">{name}</span>

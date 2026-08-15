@@ -650,7 +650,7 @@ textarea {
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(235px, 100%), 1fr));
   gap: 1.35rem;
 }
 
@@ -801,7 +801,7 @@ textarea {
 
 .photo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
   gap: 1rem;
 }
 
@@ -1389,7 +1389,7 @@ textarea {
   }
 
   .photo-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr));
   }
 
   .lightbox {

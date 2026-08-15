@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import db from '../db.js';
+import * as storage from '../lib/storage.js';
 
 const router = Router();
 
@@ -104,16 +105,23 @@ router.put('/:id(\\d+)', async (req, res, next) => {
 });
 
 // DELETE /api/subjects/:id
+// Permanently deletes the subject AND every note and file inside it.
 router.delete('/:id(\\d+)', async (req, res, next) => {
   try {
     const id = Number(req.params.id);
     const current = await db.get('SELECT * FROM subjects WHERE id = ?', id);
     if (!current) return res.status(404).json({ error: 'Subject not found' });
 
-    // Notes in the deleted subject move back to "All".
-    await db.run('UPDATE notes SET subject = ? WHERE LOWER(subject) = LOWER(?)', '', current.name);
+    const notes = await db.all('SELECT * FROM notes WHERE LOWER(subject) = LOWER(?)', current.name);
+    for (const note of notes) {
+      const images = await db.all('SELECT * FROM images WHERE note_id = ?', note.id);
+      for (const img of images) await storage.remove(img.storage_key);
+      await db.run('DELETE FROM images WHERE note_id = ?', note.id);
+    }
+    await db.run('DELETE FROM notes WHERE LOWER(subject) = LOWER(?)', current.name);
     await db.run('DELETE FROM subjects WHERE id = ?', id);
-    res.json({ ok: true });
+
+    res.json({ ok: true, deletedNotes: notes.length });
   } catch (e) {
     next(e);
   }

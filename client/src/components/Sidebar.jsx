@@ -49,7 +49,12 @@ export default function Sidebar({ active, onSelect }) {
   };
 
   const remove = async (subject) => {
-    if (!window.confirm(`Delete the "${subject.name}" subject? Notes in it will move back to All subjects.`)) return;
+    if (
+      !window.confirm(
+        `Delete the "${subject.name}" subject? All notes and files in it will be permanently deleted.`
+      )
+    )
+      return;
     try {
       await api.del(`/api/subjects/${subject.id}`);
       if (active === subject.name) onSelect('');
